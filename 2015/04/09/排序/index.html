@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构和算法," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="冒泡排序 冒泡排序 （英语：Bubble Sort）是一种简单的排序算法。它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。遍历数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。  冒泡排序算法的运作如下：  比较相邻的元素。如果第一个比第二个大（升序），就交换他们两个。 对每一对">
+<meta name="keywords" content="数据结构和算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序">
+<meta property="og:url" content="https://xinhuahuang.github.io/2015/04/09/排序/index.html">
+<meta property="og:site_name" content="xinhua's blog">
+<meta property="og:description" content="冒泡排序 冒泡排序 （英语：Bubble Sort）是一种简单的排序算法。它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。遍历数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。  冒泡排序算法的运作如下：  比较相邻的元素。如果第一个比第二个大（升序），就交换他们两个。 对每一对">
+<meta property="og:image" content="https://xinhuahuang.github.io/img/排序/bubblesort.jpg">
+<meta property="og:image" content="https://xinhuahuang.github.io/img/排序/selectionsort.jpg">
+<meta property="og:image" content="https://xinhuahuang.github.io/img/排序/Insertion-sort-example.gif">
+<meta property="og:image" content="https://xinhuahuang.github.io/img/排序/快速排序.jpg">
+<meta property="og:updated_time" content="2017-04-09T09:44:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序">
+<meta name="twitter:description" content="冒泡排序 冒泡排序 （英语：Bubble Sort）是一种简单的排序算法。它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。遍历数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。  冒泡排序算法的运作如下：  比较相邻的元素。如果第一个比第二个大（升序），就交换他们两个。 对每一对">
+<meta name="twitter:image" content="https://xinhuahuang.github.io/img/排序/bubblesort.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xinhuahuang.github.io/2015/04/09/排序/"/>
+
+
+
+
+
+  <title> 排序 | xinhua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xinhua's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/MyBookMark/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/04/09/排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                排序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-09T16:24:58+08:00">
+                2015-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><strong> 冒泡排序 </strong>（英语：Bubble Sort）是一种简单的排序算法。它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。遍历数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<p><strong> 冒泡排序算法的运作如下：</strong></p>
+<ul>
+<li>比较相邻的元素。如果第一个比第二个大（升序），就交换他们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ul>
+<h3 id="冒泡排序分析"><a href="#冒泡排序分析" class="headerlink" title="冒泡排序分析"></a>冒泡排序分析</h3><p><img src="/img/排序/bubblesort.jpg" alt=""></p>
+<h3 id="冒泡排序实现"><a href="#冒泡排序实现" class="headerlink" title="冒泡排序实现"></a>冒泡排序实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">()</span>:</span></div><div class="line">    <span class="string">"""冒泡排序"""</span></div><div class="line">    alist = [<span class="number">23</span>,<span class="number">45</span>,<span class="number">1</span>,<span class="number">56</span>,<span class="number">21</span>,<span class="number">66</span>,<span class="number">11</span>,<span class="number">100</span>,<span class="number">0</span>,<span class="number">-1</span>]</div><div class="line">    n = len(alist)</div><div class="line"></div><div class="line">    <span class="comment"># 对于有n个元素的列表，需要n-1次选择操作</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>):</div><div class="line">        <span class="comment"># 对列表中每个元素进行遍历，range(i,n-1)表示忽略已排序好的</span></div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,n<span class="number">-1</span>):</div><div class="line">            <span class="comment"># 找出最小值进行交换</span></div><div class="line">            <span class="keyword">if</span> alist[i] &gt; alist[j+<span class="number">1</span>]:</div><div class="line">                alist[i],alist[j+<span class="number">1</span>] = alist[j+<span class="number">1</span>],alist[i]</div><div class="line"></div><div class="line">    <span class="keyword">print</span> alist</div></pre></td></tr></table></figure>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p><strong> 选择排序 </strong>（Selection sort）是一种简单直观的排序算法。它的工作原理如下。首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
+<p>选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对n个元素的表进行排序总共进行至多n-1次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。</p>
+<h3 id="选择排序分析"><a href="#选择排序分析" class="headerlink" title="选择排序分析"></a>选择排序分析</h3><p><img src="/img/排序/selectionsort.jpg" alt=""></p>
+<h3 id="选择排序实现"><a href="#选择排序实现" class="headerlink" title="选择排序实现"></a>选择排序实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">()</span>:</span></div><div class="line">    <span class="string">"""选择排序"""</span></div><div class="line">    alist = [<span class="number">23</span>,<span class="number">45</span>,<span class="number">1</span>,<span class="number">56</span>,<span class="number">21</span>,<span class="number">66</span>,<span class="number">11</span>,<span class="number">100</span>,<span class="number">0</span>,<span class="number">-1</span>]</div><div class="line">    n = len(alist)</div><div class="line"></div><div class="line">    <span class="comment"># 对于有n个元素的列表，需要n-1次选择操作</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>):</div><div class="line">        <span class="comment"># 假设当前的索引为最小值</span></div><div class="line">        min_index = i</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,n):</div><div class="line">            <span class="comment"># 找出比当前索引值更小的索引</span></div><div class="line">            <span class="keyword">if</span> alist[min_index] &gt; alist[j]:</div><div class="line">                min_index = j</div><div class="line">        <span class="comment"># 如果索引值与初始索引一致，表示初始索引就是最小值不交换；否则，进行交换</span></div><div class="line">        <span class="keyword">if</span> min_index != i:</div><div class="line">            alist[i],alist[min_index] = alist[min_index],alist[i]</div><div class="line">    </div><div class="line">    <span class="keyword">print</span> alist</div></pre></td></tr></table></figure>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p><strong> 插入排序 </strong>（英语：Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
+<h3 id="插入排序分析"><a href="#插入排序分析" class="headerlink" title="插入排序分析"></a>插入排序分析</h3><p><img src="/img/排序/Insertion-sort-example.gif" alt=""></p>
+<h3 id="插入排序实现"><a href="#插入排序实现" class="headerlink" title="插入排序实现"></a>插入排序实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_sort</span><span class="params">()</span>:</span></div><div class="line">    <span class="string">"""插入排序"""</span></div><div class="line">    alist = [<span class="number">23</span>,<span class="number">45</span>,<span class="number">1</span>,<span class="number">56</span>,<span class="number">21</span>,<span class="number">66</span>,<span class="number">11</span>,<span class="number">100</span>,<span class="number">0</span>,<span class="number">-1</span>]</div><div class="line">    n = len(alist)</div><div class="line"></div><div class="line">    <span class="comment"># 假设列表中第一个元素是已排序过</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</div><div class="line">        <span class="comment"># 每次从后往前依次比较，如果后面的值&lt;前面的值，则两个值交换</span></div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,<span class="number">0</span>,<span class="number">-1</span>):</div><div class="line">            <span class="keyword">if</span> alist[j] &lt; alist[j<span class="number">-1</span>]:</div><div class="line">                alist[j],alist[j<span class="number">-1</span>] = alist[j<span class="number">-1</span>],alist[j]</div><div class="line"></div><div class="line">    <span class="keyword">print</span> alist</div></pre></td></tr></table></figure>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p><strong> 快速排序 </strong>（英语：Quicksort），又称划分交换排序（partition-exchange sort），通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
+<p><strong> 步骤为： </strong></p>
+<ul>
+<li>从数列中挑出一个元素，称为”基准”（pivot），</li>
+<li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区结束之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。</li>
+<li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
+</ul>
+<p>递归的最底部情形，是数列的大小是零或一，也就是永远都已经被排序好了。虽然一直递归下去，但是这个算法总会结束，因为在每次的迭代（iteration）中，它至少会把一个元素摆到它最后的位置去。</p>
+<h3 id="快速排序分析"><a href="#快速排序分析" class="headerlink" title="快速排序分析"></a>快速排序分析</h3><p><img src="/img/排序/快速排序.jpg" alt=""></p>
+<h3 id="快速排序实现"><a href="#快速排序实现" class="headerlink" title="快速排序实现"></a>快速排序实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(alist, first, last)</span>:</span></div><div class="line">    <span class="comment"># 用来退出递归，表示左右两边的指针已从两端汇集在一起</span></div><div class="line">    <span class="keyword">if</span> first &gt;= last:</div><div class="line">        <span class="keyword">return</span></div><div class="line"></div><div class="line">    <span class="comment"># 假设列表的最左端是一个中间值，小于min_value放在列表的左端；大于min_value放在列表的右端</span></div><div class="line">    min_value = alist[first]</div><div class="line">    low = first</div><div class="line">    high = last</div><div class="line"></div><div class="line">    <span class="comment"># 从列表的两端开始遍历</span></div><div class="line">    <span class="keyword">while</span> low &lt; high:</div><div class="line">        <span class="comment"># 如果最右端的值&gt;=min_value，将最右端下标往前移一位</span></div><div class="line">        <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> alist[high] &gt;= min_value: </div><div class="line">            high -= <span class="number">1</span></div><div class="line"></div><div class="line">        <span class="comment"># 如果最左端的值&lt;=min_value，将最左端下标往后移一位</span></div><div class="line">        <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> alist[low] &lt;= min_value: </div><div class="line">            low += <span class="number">1</span></div><div class="line"></div><div class="line">        <span class="comment"># 当最右端的值&lt;min_value，并且最左端的值&gt;min_value时，将左右两端的值进行交换</span></div><div class="line">        alist[low], alist[high] = alist[high], alist[low]</div><div class="line"></div><div class="line">    <span class="comment"># 当两端的索引指向同一个位置的时候，将当前的值与min_value进行交换</span></div><div class="line">    <span class="comment"># 因为此时low和high指向的是同一个位置，所以也可以用这里的代码：</span></div><div class="line">    <span class="comment"># alist[first], alist[low] = alist[low], min_value</span></div><div class="line">    alist[first], alist[high] = alist[high], min_value</div><div class="line"></div><div class="line">    quick_sort(alist, first, low<span class="number">-1</span>) <span class="comment"># 用递归的方式继续对左则列表进行排序</span></div><div class="line">    quick_sort(alist, low+<span class="number">1</span>, last) <span class="comment"># 用递归的方式继续对右则列表进行排序</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构和算法/" rel="tag"># 数据结构和算法</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/09/python实现栈和队列/" rel="prev" title="python实现栈和队列">
+                python实现栈和队列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xinhua huang" />
+          <p class="site-author-name" itemprop="name">xinhua huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，我用Python</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/MyBookMark/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序分析"><span class="nav-number">1.1.</span> <span class="nav-text">冒泡排序分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序实现"><span class="nav-number">1.2.</span> <span class="nav-text">冒泡排序实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">2.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序分析"><span class="nav-number">2.1.</span> <span class="nav-text">选择排序分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序实现"><span class="nav-number">2.2.</span> <span class="nav-text">选择排序实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">3.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序分析"><span class="nav-number">3.1.</span> <span class="nav-text">插入排序分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序实现"><span class="nav-number">3.2.</span> <span class="nav-text">插入排序实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序"><span class="nav-number">4.</span> <span class="nav-text">快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序分析"><span class="nav-number">4.1.</span> <span class="nav-text">快速排序分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序实现"><span class="nav-number">4.2.</span> <span class="nav-text">快速排序实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xinhua huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

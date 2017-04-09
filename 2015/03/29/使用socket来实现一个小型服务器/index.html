@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是web服务器Web服务器一般指网站服务器，是指驻留于因特网上某种类型计算机的程序，可以向浏览器等Web客户端提供文档，也可以放置网站文件，让全世界浏览；可以放置数据文件，让全世界下载。 目前最主流的三个Web服务器是：Apache Nginx IIS。 web服务器是如何工作的我们先想像这样一个场景： 客户打个一个浏览器，输入www.baidu.com后回车，就可以进入baidu页面。 那后">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用socket来实现一个小型web服务器">
+<meta property="og:url" content="https://xinhuahuang.github.io/2015/03/29/使用socket来实现一个小型服务器/index.html">
+<meta property="og:site_name" content="xinhua's blog">
+<meta property="og:description" content="什么是web服务器Web服务器一般指网站服务器，是指驻留于因特网上某种类型计算机的程序，可以向浏览器等Web客户端提供文档，也可以放置网站文件，让全世界浏览；可以放置数据文件，让全世界下载。 目前最主流的三个Web服务器是：Apache Nginx IIS。 web服务器是如何工作的我们先想像这样一个场景： 客户打个一个浏览器，输入www.baidu.com后回车，就可以进入baidu页面。 那后">
+<meta property="og:updated_time" content="2017-04-04T12:47:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用socket来实现一个小型web服务器">
+<meta name="twitter:description" content="什么是web服务器Web服务器一般指网站服务器，是指驻留于因特网上某种类型计算机的程序，可以向浏览器等Web客户端提供文档，也可以放置网站文件，让全世界浏览；可以放置数据文件，让全世界下载。 目前最主流的三个Web服务器是：Apache Nginx IIS。 web服务器是如何工作的我们先想像这样一个场景： 客户打个一个浏览器，输入www.baidu.com后回车，就可以进入baidu页面。 那后">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xinhuahuang.github.io/2015/03/29/使用socket来实现一个小型服务器/"/>
+
+
+
+
+
+  <title> 使用socket来实现一个小型web服务器 | xinhua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xinhua's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/MyBookMark/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/03/29/使用socket来实现一个小型服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用socket来实现一个小型web服务器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-29T22:39:42+08:00">
+                2015-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是web服务器"><a href="#什么是web服务器" class="headerlink" title="什么是web服务器"></a>什么是web服务器</h2><p>Web服务器一般指网站服务器，是指驻留于因特网上某种类型计算机的程序，可以向浏览器等Web客户端提供文档，也可以放置网站文件，让全世界浏览；可以放置数据文件，让全世界下载。</p>
+<p>目前最主流的三个Web服务器是：Apache Nginx IIS。</p>
+<h2 id="web服务器是如何工作的"><a href="#web服务器是如何工作的" class="headerlink" title="web服务器是如何工作的"></a>web服务器是如何工作的</h2><p>我们先想像这样一个场景： 客户打个一个浏览器，输入www.baidu.com后回车，就可以进入baidu页面。</p>
+<p>那后台是如何工作的呢？大体的工作方法如下：</p>
+<ol>
+<li>先解析出www.baidu.com对应的ip地址<br>a. 首先得知道默认网关的mac地址（使用arp广播的方式获取默认网关的mac地址）<br>b. 组织数据，然后把数据发送给默认网关<br>c. 默认网关拥有转发数据的能力，把数据转发给路由器<br>d. 路由器根据自己的路由协议来选择一个合适的较快的路径转发给目的网关<br>e. 目的网关把数据转发给dns服务器<br>f. dns服务器查询解析出www.baidu.com对应的ip地址，并把它原路返回给请求这个域名的client</li>
+<li>得到了www.baidu.com对应的ip地址后，会发送tcp的3次握手进行链接</li>
+<li>使用http协议发送请求数据给web服务器</li>
+<li>web去单位器收到数据请求之后，通过查询自己的服务器得到相应的结果，原路返回给浏览器</li>
+<li>浏览器接收到数据后，通过浏览器自己的渲染功能来显示网内在美</li>
+<li>浏览器关闭tcp链接后，即进行4次挥手</li>
+</ol>
+<h2 id="socket和web服务器的关系"><a href="#socket和web服务器的关系" class="headerlink" title="socket和web服务器的关系"></a>socket和web服务器的关系</h2><p>首先我们知道网页是通过HTTP协议来进行传输的，而socket本身就自带了HTTP协议的传输功能。我们可以通过如下套接字来创建:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div></pre></td></tr></table></figure></p>
+<p>说明<br>socket.AF_INET表示：用于Internet进程间通信<br>socket.SOCK_STREAM表示： 流式套接字，主要用于TCP协议 </p>
+<p>当浏览器输入www.baidu.com之后就开始了第一次握手；当socket.accept()接收到浏览器请求链接并返回一个确认码后，就完成了第二次握手；浏览器收到服务器的确认后再次发送确认信息，此时就完成了第三次握手。至此，浏览器和服务器就可以进行数据通信了。</p>
+<p>在Python中大体代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个套接字</span></div><div class="line">new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line"></div><div class="line"><span class="comment"># 绑定到本机的8080端口</span></div><div class="line">new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line"><span class="comment"># 等待用户连接</span></div><div class="line">client_socket, client_address = new_socket.accept()</div><div class="line"></div><div class="line"><span class="comment"># 接收用户发来的请求信息</span></div><div class="line">request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line"></div><div class="line"><span class="comment"># 服务器返回信息给浏览器</span></div><div class="line">client_socket.send(<span class="string">"hello world"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 关闭客户端、服务器端链接</span></div><div class="line">client_socket.close()</div><div class="line">new_socket.close()</div></pre></td></tr></table></figure></p>
+<p>上面的代码仅仅完成了一次请求、一次响应之后就关闭了服务器，很显然实际情况并不是这样的。我们的服务器应该是一直运行着，然后等待浏览器去访问它。另外，服务器不可能只响应一个用户的链接请求，它应该能同时处理多个用户的请求，现在我们再来改进一下代码，这里我们使用多进程的方式来实现，你也可以使用多线程来实现。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># --*--coding: utf-8 --*--</span></div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_event</span><span class="params">(client_socket)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    用户请求服务成功后，返回指定文件夹下文件的内容； 如果找不到请求文件，则返回404错误信息</div><div class="line">    :param client_socket: 接收一个新用户的套接字</div><div class="line">    :return: 无返回</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># 接收用户发来的请求信息</span></div><div class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 服务器返回信息给浏览器</span></div><div class="line">    client_socket.send(<span class="string">"hello world"</span>)</div><div class="line">    client_socket.close()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># 创建一个套接字</span></div><div class="line">    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    new_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 绑定到本机的8080端口</span></div><div class="line">    new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">    new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="comment"># 等待用户连接</span></div><div class="line">        client_socket, client_address = new_socket.accept()</div><div class="line">        print(<span class="string">"%s: %s"</span> %client_address)</div><div class="line"></div><div class="line">        <span class="comment"># 为每次链接创建一个进程</span></div><div class="line">        client_process = Process(target=handle_event, args=(client_socket,))</div><div class="line">        client_process.start()</div><div class="line"></div><div class="line">        <span class="comment"># 关闭用户链接</span></div><div class="line">        client_socket.close()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+<p>我们还忽视了一个问题，当浏览器发起请求时，实际上它包括了请求头和请求体，请求头里面包含了此次访问服务器的方式，比如：GET 或 POST，还有访问的路径。而服务器返回给浏览器时会有响应头和响应体。</p>
+<p><strong> 浏览器发出的请求大体如下: </strong><br>127.0.0.1: 51053<br>GET / HTTP/1.1<br>Host: 127.0.0.1:8001<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8<br>Accept-Language: zh-cn<br>Connection: keep-alive<br>Accept-Encoding: gzip, deflate<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/601.7.8 (KHTML, like Gecko) Version/9.1.3 Safari/537.86.7</p>
+<p><strong> 服务器的响应大体如下: </strong><br>HTTP/1.1 200 OK<br>Server: bfe/1.0.8.18<br>Date: Wed, 29 Mar 2017 16:39:54 GMT<br>Content-Type: text/html;charset=utf-8<br>Content-Length: 54739<br>Connection: keep-alive<br>Cache-Control: no-cache<br>Content-Encoding: gzip</p>
+<p>我们来看一下浏览器的请求头里面有这么个东西 GET / HTTP/1.1 ，其中GET是我此次请求的方式，/表示当前根目录，HTTP/1.1表示是使用的哪种访问协议。</p>
+<p>现在我们要实现以下场景：</p>
+<ol>
+<li>输入127.0.0.1:8001后，能访问index.html</li>
+<li>输入127.0.0.1:8001/后，也能访问index.html</li>
+<li>输入127.0.0.1:8001/welcom.html后，提示404</li>
+</ol>
+<p>我们先在当前目录下新建一个html文件夹，然后在这个文件夹里再新建一个index.html页面，当输入正确的URL后，就可以访问index.html页面。具体实现代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># --*--coding: utf-8 --*--</span></div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_event</span><span class="params">(client_socket)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    用户请求服务成功后，返回指定文件夹下文件的内容； 如果找不到请求文件，则返回404错误信息</div><div class="line">    :param client_socket: 接收一个新用户的套接字</div><div class="line">    :return: 无返回</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># 默认根目录</span></div><div class="line">    CURRENT_ROOT_PATH = <span class="string">"./html"</span></div><div class="line"></div><div class="line">    <span class="comment"># 接收用户发来的请求信息</span></div><div class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line">    <span class="comment"># print(request_data)</span></div><div class="line"></div><div class="line">    <span class="comment"># 对字符串进行分割，以获取访问文件路径</span></div><div class="line">    request_head = request_data.encode(<span class="string">"utf-8"</span>).splitlines()</div><div class="line">    <span class="comment"># print(request_head[0])</span></div><div class="line"></div><div class="line">    <span class="comment"># 获取文件路径，如：GET / HTTP/1.1  GET /index.html HTTP/1.1</span></div><div class="line">    file_name = re.search(<span class="string">r"/\w+\.\w+|/\w+|/"</span>, request_head[<span class="number">0</span>]).group()</div><div class="line">    <span class="comment"># print(file_name)</span></div><div class="line"></div><div class="line">    <span class="comment"># 拼接文件路径</span></div><div class="line">    <span class="keyword">if</span> <span class="string">"/"</span> == file_name:</div><div class="line">        file_name = CURRENT_ROOT_PATH + <span class="string">"/index.html"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        file_name = CURRENT_ROOT_PATH + file_name</div><div class="line"></div><div class="line">    <span class="comment"># 如果访问的文件存在，则显示想应的文件内容</span></div><div class="line">    <span class="comment"># 如果访问的文件不存在，则显示404</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        f = open(file_name, <span class="string">"rb"</span>)</div><div class="line">    <span class="keyword">except</span> IOError:</div><div class="line">        response_head = <span class="string">"HTTP1.1 404 not found\r\n"</span></div><div class="line">        response_body = <span class="string">"file not found!"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        response_head = <span class="string">"HTTP1.1 200 OK\r\n"</span></div><div class="line">        data = f.read()</div><div class="line">        response_body = data</div><div class="line">        f.close()</div><div class="line"></div><div class="line">    response = response_head + <span class="string">"\r\n"</span> + response_body</div><div class="line">    print(response)</div><div class="line">    client_socket.send(response)</div><div class="line">    client_socket.close()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># 创建一个套接字</span></div><div class="line">    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    new_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 绑定到本机的8080端口</span></div><div class="line">    new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">    new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="comment"># 等待用户连接</span></div><div class="line">        client_socket, client_address = new_socket.accept()</div><div class="line">        <span class="comment"># print("%s: %s" %client_address)</span></div><div class="line"></div><div class="line">        <span class="comment"># 为每次链接创建一个进程</span></div><div class="line">        client_process = Process(target=handle_event, args=(client_socket,))</div><div class="line">        client_process.start()</div><div class="line"></div><div class="line">        <span class="comment"># 关闭用户链接</span></div><div class="line">        client_socket.close()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/31/理解深拷贝和浅拷贝/" rel="next" title="理解深拷贝和浅拷贝">
+                <i class="fa fa-chevron-left"></i> 理解深拷贝和浅拷贝
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/27/模块导入和搜索路径/" rel="prev" title="模块导入和搜索路径">
+                模块导入和搜索路径 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xinhua huang" />
+          <p class="site-author-name" itemprop="name">xinhua huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，我用Python</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/MyBookMark/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是web服务器"><span class="nav-number">1.</span> <span class="nav-text">什么是web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web服务器是如何工作的"><span class="nav-number">2.</span> <span class="nav-text">web服务器是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#socket和web服务器的关系"><span class="nav-number">3.</span> <span class="nav-text">socket和web服务器的关系</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xinhua huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

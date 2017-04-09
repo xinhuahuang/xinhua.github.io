@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Python中的模块和JAVA里面包的概念很类似，在JAVA中如果我们要使用一个第三方的功能，可以通过如下方式来引入。 示例：123456package com.example.tests;import static org.junit.Assert.*;import java.util.*;import org.junit.*;import org.openqa.selenium.*;impor">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模块导入和搜索路径">
+<meta property="og:url" content="https://xinhuahuang.github.io/2015/03/27/模块导入和搜索路径/index.html">
+<meta property="og:site_name" content="xinhua's blog">
+<meta property="og:description" content="Python中的模块和JAVA里面包的概念很类似，在JAVA中如果我们要使用一个第三方的功能，可以通过如下方式来引入。 示例：123456package com.example.tests;import static org.junit.Assert.*;import java.util.*;import org.junit.*;import org.openqa.selenium.*;impor">
+<meta property="og:updated_time" content="2017-04-04T12:47:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模块导入和搜索路径">
+<meta name="twitter:description" content="Python中的模块和JAVA里面包的概念很类似，在JAVA中如果我们要使用一个第三方的功能，可以通过如下方式来引入。 示例：123456package com.example.tests;import static org.junit.Assert.*;import java.util.*;import org.junit.*;import org.openqa.selenium.*;impor">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xinhuahuang.github.io/2015/03/27/模块导入和搜索路径/"/>
+
+
+
+
+
+  <title> 模块导入和搜索路径 | xinhua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xinhua's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/MyBookMark/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/03/27/模块导入和搜索路径/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                模块导入和搜索路径
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-27T19:34:22+08:00">
+                2015-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Python中的模块和JAVA里面包的概念很类似，在JAVA中如果我们要使用一个第三方的功能，可以通过如下方式来引入。</p>
+<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.tests;</div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.*;</div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">import</span> org.junit.*;</div><div class="line"><span class="keyword">import</span> org.openqa.selenium.*;</div><div class="line"><span class="keyword">import</span> org.openqa.selenium.ie.InternetExplorerDriver;</div></pre></td></tr></table></figure></p>
+<p>上面展示了JAVA导入了两个包：junit和selenium。下面来看看Python是如何导入第三方功能的。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line">math.sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>我们可以看到，JAVA和Python的导入都是通过import的方式来实现的。但Python导入除了import外，还有from ..import ..这种方式，下面一起来看一下。</p>
+<h2 id="【方式一：-import】"><a href="#【方式一：-import】" class="headerlink" title="【方式一： import】"></a>【方式一： import】</h2><p>在Python中用关键字import来引入某个模块，比如要引用模块math，就可以在文件的最开头输入import math。当解释器遇到import语句，如果模块在当前的搜索路径就会被直接导入。</p>
+<p>像上面导入math后，在调用时为什么还要加上math.sqrt()呢？因为可能存在这样一种情况，在多个模块中存在相同的函数名，此时如果直接写函数名的话，Python解释器无法判断该执行哪个函数，所以才需要加上math这个模块名。</p>
+<h2 id="【方式二：-from-…-import-…】"><a href="#【方式二：-from-…-import-…】" class="headerlink" title="【方式二： from … import …】"></a>【方式二： from … import …】</h2><p>Python也可以只导入某个模块的某个功能，比如上面的import math它倒入了math模块中的所有功能，那通过from math import sqrt就可以只导入sqrt这个功能了。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt</div><div class="line"></div><div class="line">sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>通过from … import …这种形式导入的话，就可以不用写具体的模块名了，直接通过函数名就可以直接调用了。</p>
+<p>上面imprt math导入了math模块下的所有功能，但调用时需要写上模块名.函数名；而from math import sqrt这种方式只是导入了math模块下的sqrt一个功能，那如何即要导入math模块下的所有功能，又要省去模块名.函数名这种写法呢？</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</div><div class="line"></div><div class="line">sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>通过from math import * 就可以实现即要导入math模块下的所有功能，又省去了模块名.函数名这种写法。但是Python并不建议我们这样做。</p>
+<p>另外，有时你的模块名或者模块的属性名已经存在了，或者当前的模块名输入时比较麻烦，再或者你就想使用自己定义的模块名，那可以使用as关键字。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math sa m</div><div class="line"></div><div class="line">m.sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>又或者：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt sa sq</div><div class="line"></div><div class="line">sq(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<h2 id="【搜索路径和路径搜索】"><a href="#【搜索路径和路径搜索】" class="headerlink" title="【搜索路径和路径搜索】"></a>【搜索路径和路径搜索】</h2><p>模块的导入需要一个叫做“路径搜索”的过程。即在文件系统“预定义区域”中查找某个文件，这些预定义区域只不过是你的Python搜索路径的集合。路径搜索—&gt;指查找某个文件的操作； 搜索路径—&gt;是去查找一组目录。</p>
+<p>默认搜索路径是在编译或是安装时指定的，在Python中是保存在sys.path的变更里。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">sys.path</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>[‘’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/bin’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python35.zip’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/plat-darwin’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/lib-dynload’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/IPython/extensions’,<br> ‘/Users/huangxh/.ipython’]</p>
+<p>可以看到sys.path返回的是列表，所以我们可以通过操作列表的方式来添加新的路径。即：sys.path.append(‘路径’)</p>
+<p>示例：<br>当前路径： ‘/Users/huangxh/Desktop/test’<br>文件结构如下：<br>test<br>├── AA<br>│   └── A<br>│       └── classA.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>当前路径下面没有一个叫A的模块名（或文件夹），即在当前路径下面我们只能访问到AA文件夹，所以导入时会报错。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">In [1]: from A import classA</div><div class="line">---------------------------------------------------------------------------</div><div class="line">ImportError                               Traceback (most recent call last)</div><div class="line">&lt;ipython-input-1-d38669fb71a4&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 from A import classA</div><div class="line"></div><div class="line">ImportError: No module named 'A'</div></pre></td></tr></table></figure></p>
+<p>可以通过将当前路径加入到sys.path路径里来解决这个问题<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">2</span>]: <span class="keyword">import</span> sys</div><div class="line">In [<span class="number">3</span>]: sys.path.append(<span class="string">"/Users/huangxh/Desktop/test/AA"</span>)</div><div class="line">In [<span class="number">4</span>]: <span class="keyword">from</span> A <span class="keyword">import</span> classA</div></pre></td></tr></table></figure></p>
+<h2 id="【-all-】"><a href="#【-all-】" class="headerlink" title="【__all__】"></a>【__all__】</h2><p> 假设现在有个Demo.py的文件，在这个文件头部加上__all__ = [“Test”,”test1”]后，再import导入模块时，只会将Test和test1导入，而其它的模块不会被导入。</p>
+<p> 示例：<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> __all__ = [<span class="string">"Test"</span>,<span class="string">"test1"</span>]</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">"---Test类中的test函数---"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"---test1函数---"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"---test2函数---"</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">In [5]: from Demo import *</div><div class="line"></div><div class="line">In [6]: T = Test()</div><div class="line"></div><div class="line">In [7]: T.test()</div><div class="line"></div><div class="line">---Test类中的test函数---</div><div class="line"></div><div class="line">In [8]: test1()</div><div class="line"></div><div class="line">---test1函数---</div><div class="line"></div><div class="line">In [9]: test2()</div><div class="line">---------------------------------------------------------------------------</div><div class="line">NameError                                 Traceback (most recent call last)</div><div class="line">&lt;ipython-input-9-35ebc1c532fc&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 test2()</div><div class="line"></div><div class="line">NameError: name 'test2' is not defined</div></pre></td></tr></table></figure></p>
+<p>从上面的运行结果中可以看到，当调用test2()函数时报错</p>
+<h2 id="【-init-py】"><a href="#【-init-py】" class="headerlink" title="【__init__.py】"></a>【__init__.py】</h2><p>Python里面有包和模块的概念，包可以理解成一个文件夹，模块可以理解成一个文件<br>__init__.py：是用来控制当import包时，如何处理包下面的模块。</p>
+<p>文件结构如下：<br>test<br>├── AA<br>│   └── A<br>│       ├── __init__.py<br>│       ├── classA.py<br>│       ├── test.py<br>│       └── testb.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>__init__.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">__all__ = [<span class="string">"classA"</span>,<span class="string">"test"</span>]</div></pre></td></tr></table></figure></p>
+<p>classA.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>test.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>testb.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">testb</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">In [3]: from A import *</div><div class="line"></div><div class="line">In [4]: a = classA.A()</div><div class="line"></div><div class="line">In [5]: test = test.test()</div><div class="line"></div><div class="line">In [6]: testb = testb.testb()</div><div class="line">---------------------------------------------------------------------------</div><div class="line">NameError                                 Traceback (most recent call last)</div><div class="line">&lt;ipython-input-6-e5dbda34af1b&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 testb = testb.testb()</div><div class="line"></div><div class="line">NameError: name 'testb' is not defined</div></pre></td></tr></table></figure>
+<p>在__init__.py文件里面加上：__all__ = [“classA”,”test”]，表明当import A时，可以访问classA和test模块。如果此时在A文件夹下又多了一个testb.py的文件，当用户去直接调用testb的时会报错.</p>
+<h2 id="【-pycache-文件夹】"><a href="#【-pycache-文件夹】" class="headerlink" title="【__pycache__文件夹】"></a>【__pycache__文件夹】</h2><p>文件结构：<br>test<br>├── AA<br>│   └── A<br>│       ├── __init__.py<br>│       ├── __pycache__<br>│       │   ├── __init__.cpython-35.pyc<br>│       │   ├── classA.cpython-35.pyc<br>│       │   └── test.cpython-35.pyc<br>│       ├── classA.py<br>│       ├── test.py<br>│       └── testb.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>当类被实例化后，会在类所在目录下面新建一个__pycache__文件夹（如上所示），用来存放类编译后的信息。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/29/使用socket来实现一个小型服务器/" rel="next" title="使用socket来实现一个小型web服务器">
+                <i class="fa fa-chevron-left"></i> 使用socket来实现一个小型web服务器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/24/进程在Python中的应用/" rel="prev" title="进程在Python中的应用">
+                进程在Python中的应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xinhua huang" />
+          <p class="site-author-name" itemprop="name">xinhua huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，我用Python</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/MyBookMark/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#【方式一：-import】"><span class="nav-number">1.</span> <span class="nav-text">【方式一： import】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【方式二：-from-…-import-…】"><span class="nav-number">2.</span> <span class="nav-text">【方式二： from … import …】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【搜索路径和路径搜索】"><span class="nav-number">3.</span> <span class="nav-text">【搜索路径和路径搜索】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【-all-】"><span class="nav-number">4.</span> <span class="nav-text">【__all__】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【-init-py】"><span class="nav-number">5.</span> <span class="nav-text">【__init__.py】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【-pycache-文件夹】"><span class="nav-number">6.</span> <span class="nav-text">【__pycache__文件夹】</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xinhua huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
