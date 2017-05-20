@@ -1,0 +1,832 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    列表–list list是简单的字符串列表，按照插入顺序排序每个列表可以超过40亿个元素  List常用的命令    命令 用例和描述      lrange lran">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis命令之--list">
+<meta property="og:url" content="https://xinhuahuang.github.io/2015/05/20/Redis命令之-list/index.html">
+<meta property="og:site_name" content="xinhua's blog">
+<meta property="og:description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    列表–list list是简单的字符串列表，按照插入顺序排序每个列表可以超过40亿个元素  List常用的命令    命令 用例和描述      lrange lran">
+<meta property="og:updated_time" content="2017-05-20T06:42:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis命令之--list">
+<meta name="twitter:description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    列表–list list是简单的字符串列表，按照插入顺序排序每个列表可以超过40亿个元素  List常用的命令    命令 用例和描述      lrange lran">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xinhuahuang.github.io/2015/05/20/Redis命令之-list/"/>
+
+
+
+
+
+  <title> Redis命令之--list | xinhua's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xinhua's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/MyBookMark/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/05/20/Redis命令之-list/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis命令之--list
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-20T12:26:20+08:00">
+                2015-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Redis基本数据类型"><a href="#Redis基本数据类型" class="headerlink" title="Redis基本数据类型"></a>Redis基本数据类型</h2><p>Redis支持五种数据类型：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>含义 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>字符串  </td>
+</tr>
+<tr>
+<td>hash</td>
+<td>哈希  </td>
+</tr>
+<tr>
+<td>list</td>
+<td>列表  </td>
+</tr>
+<tr>
+<td>set</td>
+<td>集合</td>
+</tr>
+<tr>
+<td>zset (Sorted set)</td>
+<td>有序集合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="列表–list"><a href="#列表–list" class="headerlink" title="列表–list"></a>列表–list</h3><blockquote>
+<p>list是简单的字符串列表，按照插入顺序排序<br>每个列表可以超过40亿个元素</p>
+</blockquote>
+<p>List常用的命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lrange</td>
+<td>lrange key-name start end ——查看列表指定范围的元素</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>lpush key-name value1 value2… ——将一个或多个值插入列表左端</td>
+</tr>
+<tr>
+<td>rpush</td>
+<td>rpush key-name value1 value2… ——将一个或多个值插入列表右端</td>
+</tr>
+<tr>
+<td>linsert</td>
+<td>linsert key-name after/befor value ——在指定的元素前或后插入新元素</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key-name index ——返回列表中指定位置的元素</td>
+</tr>
+<tr>
+<td>lset</td>
+<td>lset key-name index value ——修改指定位置的元素</td>
+</tr>
+<tr>
+<td>lrem</td>
+<td>lrem key-name count value ——移除指定个数的元素</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>lpop key-name ——移除并返回列表最左端的元素</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>rpop key-name ——移除并返回列表最右端的元素</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop key-name1 key-name2… timeout ——移除并返回列表最左端的元素(阻塞)</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop key-name1 key-name2… timeout ——移除并返回列表最右端的元素(阻塞)</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key-name start end ——保留start和end之间的元素，start和end都保留</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplpush source-key dest-key ——将source-key最右端元素插入到dest-key最左端</td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td>brpoplpush source-key dest-key timeout ——将source-key最右端元素插入到dest-key最左端(阻塞)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常用的命令使用"><a href="#常用的命令使用" class="headerlink" title="常用的命令使用"></a>常用的命令使用</h3><p><strong> 1. lrange: 查看列表指定范围的元素 </strong></p>
+<blockquote>
+<p>start、end为元素的下标索引<br>索引从左侧开始，第一个元素为0，最后一个元素为-1</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span>  <span class="comment"># 取list的所有元素</span></div><div class="line"><span class="number">1</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">1</span>   <span class="comment"># 取list的前两个元素</span></div><div class="line"><span class="number">1</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item2"</span></div></pre></td></tr></table></figure>
+<p><strong> 2. lpush: 将一个或多个值插入列表左端 </strong></p>
+<blockquote>
+<p>列表是从左往右依次显示的，故最先插入的数据显示在最后面</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lpush l-list <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span></div><div class="line">(integer) <span class="number">5</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange l-list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"5"</span></div><div class="line"><span class="number">2</span>) <span class="string">"4"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"><span class="number">4</span>) <span class="string">"2"</span></div><div class="line"><span class="number">5</span>) <span class="string">"1"</span></div></pre></td></tr></table></figure>
+<p><strong> 3. rpush: 将一个或多个值插入列表右端 </strong></p>
+<blockquote>
+<p>列表是从左往右依次显示的，故最先插入的数据显示在最前面</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpush r-list <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span></div><div class="line">(integer) <span class="number">5</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange r-list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"><span class="number">4</span>) <span class="string">"4"</span></div><div class="line"><span class="number">5</span>) <span class="string">"5"</span></div></pre></td></tr></table></figure>
+<p><strong> 4. linsert: 在指定的元素前或后插入新元素 </strong></p>
+<blockquote>
+<p>befor，在元素前插入<br>after，在元素后插入</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; linsert list before item1 item0  <span class="comment"># 在item1元素前插入item0元素</span></div><div class="line">(integer) <span class="number">4</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; linsert list after item3 item4  <span class="comment"># 在item3元素后插入item4元素</span></div><div class="line">(integer) <span class="number">5</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"item4"</span></div></pre></td></tr></table></figure>
+<p><strong> 5. lindex: 返回列表中指定位置的元素 </strong></p>
+<blockquote>
+<p>索引从0开始，表示第一个元素；索引从-1开始，表示最后一个元素</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"item4"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lindex list <span class="number">1</span></div><div class="line"><span class="string">"item1"</span></div></pre></td></tr></table></figure>
+<p><strong> 6. lset: 修改指定位置的元素 </strong></p>
+<blockquote>
+<p>索引从0开始，表示第一个元素；索引从-1开始，表示最后一个元素</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"item4"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lset list <span class="number">2</span> item-two</div><div class="line">OK</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item-two"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"item4"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lset list <span class="number">-1</span> item-four</div><div class="line">OK</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"item0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"item1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"item-two"</span></div><div class="line"><span class="number">4</span>) <span class="string">"item3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"item-four"</span></div></pre></td></tr></table></figure>
+<p><strong> 7. lrem: 移除指定个数的元素 </strong></p>
+<blockquote>
+<p>讲列表中前count个值为value的元素移除<br>count &gt; 0: 从头往尾移除<br>count &lt; 0: 从尾往头移除<br>count = 0: 移除所有</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"1"</span></div><div class="line"><span class="number">5</span>) <span class="string">"0"</span></div><div class="line"><span class="number">6</span>) <span class="string">"1"</span></div><div class="line"><span class="number">7</span>) <span class="string">"2"</span></div><div class="line"><span class="number">8</span>) <span class="string">"3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrem mylist <span class="number">0</span> <span class="number">1</span>  <span class="comment"># 移除所有的1</span></div><div class="line">(integer) <span class="number">3</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"0"</span></div><div class="line"><span class="number">4</span>) <span class="string">"2"</span></div><div class="line"><span class="number">5</span>) <span class="string">"3"</span></div><div class="line"></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrem mylist <span class="number">2</span> <span class="number">2</span>  <span class="comment"># 移除前两个2，注意是从左开始计数</span></div><div class="line">(integer) <span class="number">2</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"0"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"3"</span></div><div class="line"><span class="number">2</span>) <span class="string">"0"</span></div><div class="line"><span class="number">3</span>) <span class="string">"0"</span></div><div class="line"><span class="number">4</span>) <span class="string">"3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrem mylist <span class="number">-1</span> <span class="number">3</span>  <span class="comment"># 从右开始计数，移除一个3</span></div><div class="line">(integer) <span class="number">1</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"3"</span></div><div class="line"><span class="number">2</span>) <span class="string">"0"</span></div><div class="line"><span class="number">3</span>) <span class="string">"0"</span></div></pre></td></tr></table></figure>
+<p><strong> 8. lpop: 移除并返回列表最左端的元素 </strong><br><strong> 9. rpop: 移除并返回列表最右端的元素 </strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"><span class="number">4</span>) <span class="string">"4"</span></div><div class="line"><span class="number">5</span>) <span class="string">"5"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lpop mylist</div><div class="line"><span class="string">"1"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpop mylist</div><div class="line"><span class="string">"5"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"2"</span></div><div class="line"><span class="number">2</span>) <span class="string">"3"</span></div><div class="line"><span class="number">3</span>) <span class="string">"4"</span></div></pre></td></tr></table></figure>
+<p><strong> 10. blpop: 移除并返回列表最左端的元素(阻塞) </strong><br><strong> 11. brpop: 移除并返回列表最右端的元素(阻塞) </strong></p>
+<blockquote>
+<p>可以有多个key-name,多个key-name的执行顺序：依次从左key-name取值，当把左key-name中的值都取完后再取下一个key-name值，等把把有key-name的值都取完后，进入阻塞状态<br>阻塞的超时时间设定：当不设置超时时间，表示永久阻塞；否则按设置的时间退出阻塞。<br>在阻塞时，如果此时的key-name中有了新值后，则马上返回新值并退出阻塞</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list1 <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"list1-1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list1-2"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list2 <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"list2-1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list2-2"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; blpop list1 list2 <span class="number">3</span></div><div class="line"><span class="number">1</span>) <span class="string">"list1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list1-1"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; blpop list1 list2 <span class="number">3</span></div><div class="line"><span class="number">1</span>) <span class="string">"list1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list1-2"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; blpop list1 list2 <span class="number">3</span></div><div class="line"><span class="number">1</span>) <span class="string">"list2"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list2-1"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; blpop list1 list2 <span class="number">3</span></div><div class="line"><span class="number">1</span>) <span class="string">"list2"</span></div><div class="line"><span class="number">2</span>) <span class="string">"list2-2"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; blpop list1 list2 <span class="number">3</span></div><div class="line">(nil)</div><div class="line">(<span class="number">3.03</span>s)</div></pre></td></tr></table></figure>
+<p><strong> 12. ltrim: 保留start和end之间的元素，start和end都保留 </strong></p>
+<blockquote>
+<p>索引从0开始</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"0"</span></div><div class="line"><span class="number">2</span>) <span class="string">"1"</span></div><div class="line"><span class="number">3</span>) <span class="string">"2"</span></div><div class="line"><span class="number">4</span>) <span class="string">"3"</span></div><div class="line"><span class="number">5</span>) <span class="string">"4"</span></div><div class="line"><span class="number">6</span>) <span class="string">"5"</span></div><div class="line"><span class="number">7</span>) <span class="string">"6"</span></div><div class="line"><span class="number">8</span>) <span class="string">"7"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ltrim list <span class="number">3</span> <span class="number">5</span></div><div class="line">OK</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"3"</span></div><div class="line"><span class="number">2</span>) <span class="string">"4"</span></div><div class="line"><span class="number">3</span>) <span class="string">"5"</span></div></pre></td></tr></table></figure>
+<p><strong> 13. rpoplpush: 将source-key最右端元素取出，并插入到dest-key最左端 </strong><br><strong> 14. brpoplpush: 将source-key最右端元素取出，并插入到dest-key最左端(阻塞) </strong></p>
+<blockquote>
+<p>操作完成扣，source-key中的元素为空，dest-key保留了source-key中的元素</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange list1 <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"><span class="number">4</span>) <span class="string">"4"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpoplpush list1 mylist</div><div class="line"><span class="string">"4"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpoplpush list1 mylist</div><div class="line"><span class="string">"3"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpoplpush list1 mylist</div><div class="line"><span class="string">"2"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; rpoplpush list1 mylist</div><div class="line"><span class="string">"1"</span></div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange mylist <span class="number">0</span> <span class="number">-1</span></div><div class="line"><span class="number">1</span>) <span class="string">"1"</span></div><div class="line"><span class="number">2</span>) <span class="string">"2"</span></div><div class="line"><span class="number">3</span>) <span class="string">"3"</span></div><div class="line"><span class="number">4</span>) <span class="string">"4"</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/20/Redis命令之-set/" rel="next" title="Redis命令之--set">
+                <i class="fa fa-chevron-left"></i> Redis命令之--set
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/16/Redis命令之-hash/" rel="prev" title="Redis命令之--hash">
+                Redis命令之--hash <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xinhua huang" />
+          <p class="site-author-name" itemprop="name">xinhua huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，我用Python</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/MyBookMark/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis基本数据类型"><span class="nav-number">1.</span> <span class="nav-text">Redis基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#列表–list"><span class="nav-number">1.1.</span> <span class="nav-text">列表–list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的命令使用"><span class="nav-number">1.2.</span> <span class="nav-text">常用的命令使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xinhua huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Python," />
+  <meta name="keywords" content="Redis," />
 
 
 
@@ -87,22 +87,17 @@
 
 
 
-<meta name="description" content="深拷贝和浅拷贝 浅拷贝： 其实是新创建了一个类型跟原对象一样，内容是原对象的引用。新创建对象的值改变会影响到原对象的值 下面都是浅拷贝的操作：  完全切片操作 利用工厂函数，比如：list()，dict()等 使用copy模块的copy()函数（当为可变类型时，第一层是深拷贝，后面是浅拷贝； 当为不可变类型时，都是浅拷贝）  示例：  深拷贝:  将里面的内容拷贝一份到新的地址里面，新创建对象更改">
-<meta name="keywords" content="Python">
+<meta name="description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    有序集合–zset 有序集合也是string类型元素的集合，且不允许有重复的成员每个元素都会关联一个deouble类型的分数，Redis就是通过这个分数来对集合进行排序">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解深拷贝和浅拷贝">
-<meta property="og:url" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/index.html">
+<meta property="og:title" content="Redis命令之--zset">
+<meta property="og:url" content="https://xinhuahuang.github.io/2015/05/20/Redis命令之-zset/index.html">
 <meta property="og:site_name" content="xinhua's blog">
-<meta property="og:description" content="深拷贝和浅拷贝 浅拷贝： 其实是新创建了一个类型跟原对象一样，内容是原对象的引用。新创建对象的值改变会影响到原对象的值 下面都是浅拷贝的操作：  完全切片操作 利用工厂函数，比如：list()，dict()等 使用copy模块的copy()函数（当为可变类型时，第一层是深拷贝，后面是浅拷贝； 当为不可变类型时，都是浅拷贝）  示例：  深拷贝:  将里面的内容拷贝一份到新的地址里面，新创建对象更改">
-<meta property="og:image" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/img/拷贝/浅拷贝.jpg">
-<meta property="og:image" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/img/拷贝/02.jpg">
-<meta property="og:image" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/img/拷贝/03深拷贝.jpg">
-<meta property="og:image" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/img/拷贝/04深拷贝.jpg">
-<meta property="og:updated_time" content="2017-04-04T11:18:17.000Z">
+<meta property="og:description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    有序集合–zset 有序集合也是string类型元素的集合，且不允许有重复的成员每个元素都会关联一个deouble类型的分数，Redis就是通过这个分数来对集合进行排序">
+<meta property="og:updated_time" content="2017-05-20T09:00:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解深拷贝和浅拷贝">
-<meta name="twitter:description" content="深拷贝和浅拷贝 浅拷贝： 其实是新创建了一个类型跟原对象一样，内容是原对象的引用。新创建对象的值改变会影响到原对象的值 下面都是浅拷贝的操作：  完全切片操作 利用工厂函数，比如：list()，dict()等 使用copy模块的copy()函数（当为可变类型时，第一层是深拷贝，后面是浅拷贝； 当为不可变类型时，都是浅拷贝）  示例：  深拷贝:  将里面的内容拷贝一份到新的地址里面，新创建对象更改">
-<meta name="twitter:image" content="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/img/拷贝/浅拷贝.jpg">
+<meta name="twitter:title" content="Redis命令之--zset">
+<meta name="twitter:description" content="Redis基本数据类型Redis支持五种数据类型：    数据类型 含义      string 字符串     hash 哈希     list 列表     set 集合   zset (Sorted set) 有序集合    有序集合–zset 有序集合也是string类型元素的集合，且不允许有重复的成员每个元素都会关联一个deouble类型的分数，Redis就是通过这个分数来对集合进行排序">
 
 
 
@@ -130,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/"/>
+  <link rel="canonical" href="https://xinhuahuang.github.io/2015/05/20/Redis命令之-zset/"/>
 
 
 
 
 
-  <title> 理解深拷贝和浅拷贝 | xinhua's blog </title>
+  <title> Redis命令之--zset | xinhua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/03/31/理解深拷贝和浅拷贝/">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/05/20/Redis命令之-zset/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xinhua huang">
@@ -276,7 +271,7 @@
             
             
               
-                理解深拷贝和浅拷贝
+                Redis命令之--zset
               
             
           </h1>
@@ -291,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-31T11:24:38+08:00">
-                2015-03-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-20T16:22:18+08:00">
+                2015-05-20
               </time>
             
 
@@ -327,17 +322,111 @@
       
 
       
-        <h2 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h2><p><strong> 浅拷贝：</strong> 其实是新创建了一个类型跟原对象一样，内容是原对象的引用。新创建对象的值改变会影响到原对象的值</p>
-<p>下面都是浅拷贝的操作：</p>
-<ul>
-<li>完全切片操作</li>
-<li>利用工厂函数，比如：list()，dict()等</li>
-<li>使用copy模块的copy()函数（当为可变类型时，第一层是深拷贝，后面是浅拷贝； 当为不可变类型时，都是浅拷贝）</li>
-</ul>
-<p>示例：<br><img src="img/拷贝/浅拷贝.jpg" alt=""></p>
-<p><strong> 深拷贝: </strong> 将里面的内容拷贝一份到新的地址里面，新创建对象更改不会影响到原对象<br>import copy<br>copy.deepcopy()<br><img src="img/拷贝/02.jpg" alt=""></p>
-<p>import copy<br>copy.copy()—当为可变类型时，第一层是深拷贝，后面是浅拷贝；<br><img src="img/拷贝/03深拷贝.jpg" alt=""></p>
-<p>copy.copy()—当为不可变类型时，都是浅拷贝<br><img src="img/拷贝/04深拷贝.jpg" alt=""></p>
+        <h2 id="Redis基本数据类型"><a href="#Redis基本数据类型" class="headerlink" title="Redis基本数据类型"></a>Redis基本数据类型</h2><p>Redis支持五种数据类型：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>含义 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>字符串  </td>
+</tr>
+<tr>
+<td>hash</td>
+<td>哈希  </td>
+</tr>
+<tr>
+<td>list</td>
+<td>列表  </td>
+</tr>
+<tr>
+<td>set</td>
+<td>集合</td>
+</tr>
+<tr>
+<td>zset (Sorted set)</td>
+<td>有序集合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="有序集合–zset"><a href="#有序集合–zset" class="headerlink" title="有序集合–zset"></a>有序集合–zset</h3><blockquote>
+<p>有序集合也是string类型元素的集合，且不允许有重复的成员<br>每个元素都会关联一个deouble类型的分数，Redis就是通过这个分数来对集合进行排序的，分数可以重复</p>
+</blockquote>
+<p>zset常用的命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zadd</td>
+<td>zadd key-name score1 member1 score2 member2…  ——增加成员及分数</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key-name  min max ——返回分值介于min和max之间的成员数量</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key-name start stop ——获取指定索引范围的元素</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key-name min max ——获取指定score大小范围的元素</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>zscore key-name member ——返回指定成员score值</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zzrem key-name member1 member2… ——删除指定元素</td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>zremrangebyscore key-name min max ——删除指定score范围的元素</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>zremrangebyrank key-name start stop ——移除有序集合中start和stop之间的所有成员</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>zincrby key-name increment member ——增加指定成员的score值</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key-name start stop ——按从大到小排序</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore key-name max min ——获取有序集合min和max之间的所有成员，并按从大到小排序</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key-name ——返回有序集合包含的成员数量</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>zrank key-name member ——返回成员member在有序集合中的排名</td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>zinterstore dest-key [key1 key2…] ——对给定的有序集合执行类似于集合的交集运算</td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>zunionstore dest-key [key1 key2…] ——对给定的有序集合执行类似于集合的并集运算</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -367,7 +456,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -380,18 +469,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/31/函数式编程之lambda、filter、map、reduce/" rel="next" title="函数式编程之lambda、filter、map、reduce">
-                <i class="fa fa-chevron-left"></i> 函数式编程之lambda、filter、map、reduce
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/29/使用socket来实现一个小型服务器/" rel="prev" title="使用socket来实现一个小型web服务器">
-                使用socket来实现一个小型web服务器 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/05/20/Redis命令之-set/" rel="prev" title="Redis命令之--set">
+                Redis命令之--set <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -512,7 +597,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#深拷贝和浅拷贝"><span class="nav-number">1.</span> <span class="nav-text">深拷贝和浅拷贝</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis基本数据类型"><span class="nav-number">1.</span> <span class="nav-text">Redis基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有序集合–zset"><span class="nav-number">1.1.</span> <span class="nav-text">有序集合–zset</span></a></li></ol></li></ol></div>
             
 
           </div>

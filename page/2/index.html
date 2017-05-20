@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Python," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,17 +87,15 @@
 
 
 
-<meta name="description" content="进程概念梳理进程是程序的一次执行。当程序运行时，默认就会产生一个进程且Python解释器会给该进程开辟一个内存空间。 进程也可以实现多任务，当有多个进程产生时，之前默认的那个进程我们可以称为主进程，而之后通过fork或Process创建的进程称为子进程。而创建出来的子进程，Python解释器又会给它们开辟新的内存空间，所以各个子进程之间的数据不进行共享。 一个主进程里面可以拥有多个子进程。 进程的">
-<meta name="keywords" content="Python">
-<meta property="og:type" content="article">
-<meta property="og:title" content="进程在Python中的应用">
-<meta property="og:url" content="https://xinhuahuang.github.io/2015/03/24/进程在Python中的应用/index.html">
+<meta name="description" content="人生苦短，我用Python">
+<meta property="og:type" content="website">
+<meta property="og:title" content="xinhua's blog">
+<meta property="og:url" content="https://xinhuahuang.github.io/page/2/index.html">
 <meta property="og:site_name" content="xinhua's blog">
-<meta property="og:description" content="进程概念梳理进程是程序的一次执行。当程序运行时，默认就会产生一个进程且Python解释器会给该进程开辟一个内存空间。 进程也可以实现多任务，当有多个进程产生时，之前默认的那个进程我们可以称为主进程，而之后通过fork或Process创建的进程称为子进程。而创建出来的子进程，Python解释器又会给它们开辟新的内存空间，所以各个子进程之间的数据不进行共享。 一个主进程里面可以拥有多个子进程。 进程的">
-<meta property="og:updated_time" content="2017-04-04T11:18:07.000Z">
+<meta property="og:description" content="人生苦短，我用Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程在Python中的应用">
-<meta name="twitter:description" content="进程概念梳理进程是程序的一次执行。当程序运行时，默认就会产生一个进程且Python解释器会给该进程开辟一个内存空间。 进程也可以实现多任务，当有多个进程产生时，之前默认的那个进程我们可以称为主进程，而之后通过fork或Process创建的进程称为子进程。而创建出来的子进程，Python解释器又会给它们开辟新的内存空间，所以各个子进程之间的数据不进行共享。 一个主进程里面可以拥有多个子进程。 进程的">
+<meta name="twitter:title" content="xinhua's blog">
+<meta name="twitter:description" content="人生苦短，我用Python">
 
 
 
@@ -125,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://xinhuahuang.github.io/2015/03/24/进程在Python中的应用/"/>
+  <link rel="canonical" href="https://xinhuahuang.github.io/page/2/"/>
 
 
 
 
 
-  <title> 进程在Python中的应用 | xinhua's blog </title>
+  <title> xinhua's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -156,7 +154,9 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -239,9 +239,318 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/03/29/使用socket来实现一个小型服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/29/使用socket来实现一个小型服务器/" itemprop="url">
+                  使用socket来实现一个小型web服务器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-29T22:39:42+08:00">
+                2015-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="什么是web服务器"><a href="#什么是web服务器" class="headerlink" title="什么是web服务器"></a>什么是web服务器</h2><p>Web服务器一般指网站服务器，是指驻留于因特网上某种类型计算机的程序，可以向浏览器等Web客户端提供文档，也可以放置网站文件，让全世界浏览；可以放置数据文件，让全世界下载。</p>
+<p>目前最主流的三个Web服务器是：Apache Nginx IIS。</p>
+<h2 id="web服务器是如何工作的"><a href="#web服务器是如何工作的" class="headerlink" title="web服务器是如何工作的"></a>web服务器是如何工作的</h2><p>我们先想像这样一个场景： 客户打个一个浏览器，输入www.baidu.com后回车，就可以进入baidu页面。</p>
+<p>那后台是如何工作的呢？大体的工作方法如下：</p>
+<ol>
+<li>先解析出www.baidu.com对应的ip地址<br>a. 首先得知道默认网关的mac地址（使用arp广播的方式获取默认网关的mac地址）<br>b. 组织数据，然后把数据发送给默认网关<br>c. 默认网关拥有转发数据的能力，把数据转发给路由器<br>d. 路由器根据自己的路由协议来选择一个合适的较快的路径转发给目的网关<br>e. 目的网关把数据转发给dns服务器<br>f. dns服务器查询解析出www.baidu.com对应的ip地址，并把它原路返回给请求这个域名的client</li>
+<li>得到了www.baidu.com对应的ip地址后，会发送tcp的3次握手进行链接</li>
+<li>使用http协议发送请求数据给web服务器</li>
+<li>web去单位器收到数据请求之后，通过查询自己的服务器得到相应的结果，原路返回给浏览器</li>
+<li>浏览器接收到数据后，通过浏览器自己的渲染功能来显示网内在美</li>
+<li>浏览器关闭tcp链接后，即进行4次挥手</li>
+</ol>
+<h2 id="socket和web服务器的关系"><a href="#socket和web服务器的关系" class="headerlink" title="socket和web服务器的关系"></a>socket和web服务器的关系</h2><p>首先我们知道网页是通过HTTP协议来进行传输的，而socket本身就自带了HTTP协议的传输功能。我们可以通过如下套接字来创建:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div></pre></td></tr></table></figure></p>
+<p>说明<br>socket.AF_INET表示：用于Internet进程间通信<br>socket.SOCK_STREAM表示： 流式套接字，主要用于TCP协议 </p>
+<p>当浏览器输入www.baidu.com之后就开始了第一次握手；当socket.accept()接收到浏览器请求链接并返回一个确认码后，就完成了第二次握手；浏览器收到服务器的确认后再次发送确认信息，此时就完成了第三次握手。至此，浏览器和服务器就可以进行数据通信了。</p>
+<p>在Python中大体代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个套接字</span></div><div class="line">new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line"></div><div class="line"><span class="comment"># 绑定到本机的8080端口</span></div><div class="line">new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line"><span class="comment"># 等待用户连接</span></div><div class="line">client_socket, client_address = new_socket.accept()</div><div class="line"></div><div class="line"><span class="comment"># 接收用户发来的请求信息</span></div><div class="line">request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line"></div><div class="line"><span class="comment"># 服务器返回信息给浏览器</span></div><div class="line">client_socket.send(<span class="string">"hello world"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 关闭客户端、服务器端链接</span></div><div class="line">client_socket.close()</div><div class="line">new_socket.close()</div></pre></td></tr></table></figure></p>
+<p>上面的代码仅仅完成了一次请求、一次响应之后就关闭了服务器，很显然实际情况并不是这样的。我们的服务器应该是一直运行着，然后等待浏览器去访问它。另外，服务器不可能只响应一个用户的链接请求，它应该能同时处理多个用户的请求，现在我们再来改进一下代码，这里我们使用多进程的方式来实现，你也可以使用多线程来实现。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># --*--coding: utf-8 --*--</span></div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_event</span><span class="params">(client_socket)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    用户请求服务成功后，返回指定文件夹下文件的内容； 如果找不到请求文件，则返回404错误信息</div><div class="line">    :param client_socket: 接收一个新用户的套接字</div><div class="line">    :return: 无返回</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># 接收用户发来的请求信息</span></div><div class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 服务器返回信息给浏览器</span></div><div class="line">    client_socket.send(<span class="string">"hello world"</span>)</div><div class="line">    client_socket.close()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># 创建一个套接字</span></div><div class="line">    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    new_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 绑定到本机的8080端口</span></div><div class="line">    new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">    new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="comment"># 等待用户连接</span></div><div class="line">        client_socket, client_address = new_socket.accept()</div><div class="line">        print(<span class="string">"%s: %s"</span> %client_address)</div><div class="line"></div><div class="line">        <span class="comment"># 为每次链接创建一个进程</span></div><div class="line">        client_process = Process(target=handle_event, args=(client_socket,))</div><div class="line">        client_process.start()</div><div class="line"></div><div class="line">        <span class="comment"># 关闭用户链接</span></div><div class="line">        client_socket.close()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+<p>我们还忽视了一个问题，当浏览器发起请求时，实际上它包括了请求头和请求体，请求头里面包含了此次访问服务器的方式，比如：GET 或 POST，还有访问的路径。而服务器返回给浏览器时会有响应头和响应体。</p>
+<p><strong> 浏览器发出的请求大体如下: </strong><br>127.0.0.1: 51053<br>GET / HTTP/1.1<br>Host: 127.0.0.1:8001<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8<br>Accept-Language: zh-cn<br>Connection: keep-alive<br>Accept-Encoding: gzip, deflate<br>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/601.7.8 (KHTML, like Gecko) Version/9.1.3 Safari/537.86.7</p>
+<p><strong> 服务器的响应大体如下: </strong><br>HTTP/1.1 200 OK<br>Server: bfe/1.0.8.18<br>Date: Wed, 29 Mar 2017 16:39:54 GMT<br>Content-Type: text/html;charset=utf-8<br>Content-Length: 54739<br>Connection: keep-alive<br>Cache-Control: no-cache<br>Content-Encoding: gzip</p>
+<p>我们来看一下浏览器的请求头里面有这么个东西 GET / HTTP/1.1 ，其中GET是我此次请求的方式，/表示当前根目录，HTTP/1.1表示是使用的哪种访问协议。</p>
+<p>现在我们要实现以下场景：</p>
+<ol>
+<li>输入127.0.0.1:8001后，能访问index.html</li>
+<li>输入127.0.0.1:8001/后，也能访问index.html</li>
+<li>输入127.0.0.1:8001/welcom.html后，提示404</li>
+</ol>
+<p>我们先在当前目录下新建一个html文件夹，然后在这个文件夹里再新建一个index.html页面，当输入正确的URL后，就可以访问index.html页面。具体实现代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># --*--coding: utf-8 --*--</span></div><div class="line"><span class="keyword">import</span> socket</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_event</span><span class="params">(client_socket)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    用户请求服务成功后，返回指定文件夹下文件的内容； 如果找不到请求文件，则返回404错误信息</div><div class="line">    :param client_socket: 接收一个新用户的套接字</div><div class="line">    :return: 无返回</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># 默认根目录</span></div><div class="line">    CURRENT_ROOT_PATH = <span class="string">"./html"</span></div><div class="line"></div><div class="line">    <span class="comment"># 接收用户发来的请求信息</span></div><div class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</div><div class="line">    <span class="comment"># print(request_data)</span></div><div class="line"></div><div class="line">    <span class="comment"># 对字符串进行分割，以获取访问文件路径</span></div><div class="line">    request_head = request_data.encode(<span class="string">"utf-8"</span>).splitlines()</div><div class="line">    <span class="comment"># print(request_head[0])</span></div><div class="line"></div><div class="line">    <span class="comment"># 获取文件路径，如：GET / HTTP/1.1  GET /index.html HTTP/1.1</span></div><div class="line">    file_name = re.search(<span class="string">r"/\w+\.\w+|/\w+|/"</span>, request_head[<span class="number">0</span>]).group()</div><div class="line">    <span class="comment"># print(file_name)</span></div><div class="line"></div><div class="line">    <span class="comment"># 拼接文件路径</span></div><div class="line">    <span class="keyword">if</span> <span class="string">"/"</span> == file_name:</div><div class="line">        file_name = CURRENT_ROOT_PATH + <span class="string">"/index.html"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        file_name = CURRENT_ROOT_PATH + file_name</div><div class="line"></div><div class="line">    <span class="comment"># 如果访问的文件存在，则显示想应的文件内容</span></div><div class="line">    <span class="comment"># 如果访问的文件不存在，则显示404</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        f = open(file_name, <span class="string">"rb"</span>)</div><div class="line">    <span class="keyword">except</span> IOError:</div><div class="line">        response_head = <span class="string">"HTTP1.1 404 not found\r\n"</span></div><div class="line">        response_body = <span class="string">"file not found!"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        response_head = <span class="string">"HTTP1.1 200 OK\r\n"</span></div><div class="line">        data = f.read()</div><div class="line">        response_body = data</div><div class="line">        f.close()</div><div class="line"></div><div class="line">    response = response_head + <span class="string">"\r\n"</span> + response_body</div><div class="line">    print(response)</div><div class="line">    client_socket.send(response)</div><div class="line">    client_socket.close()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># 创建一个套接字</span></div><div class="line">    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    new_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 绑定到本机的8080端口</span></div><div class="line">    new_socket.bind((<span class="string">""</span>, <span class="number">8001</span>))</div><div class="line">    new_socket.listen(<span class="number">5</span>)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="comment"># 等待用户连接</span></div><div class="line">        client_socket, client_address = new_socket.accept()</div><div class="line">        <span class="comment"># print("%s: %s" %client_address)</span></div><div class="line"></div><div class="line">        <span class="comment"># 为每次链接创建一个进程</span></div><div class="line">        client_process = Process(target=handle_event, args=(client_socket,))</div><div class="line">        client_process.start()</div><div class="line"></div><div class="line">        <span class="comment"># 关闭用户链接</span></div><div class="line">        client_socket.close()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xinhuahuang.github.io/2015/03/27/模块导入和搜索路径/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xinhua huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinhua's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/27/模块导入和搜索路径/" itemprop="url">
+                  模块导入和搜索路径
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-27T19:34:22+08:00">
+                2015-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Python中的模块和JAVA里面包的概念很类似，在JAVA中如果我们要使用一个第三方的功能，可以通过如下方式来引入。</p>
+<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.tests;</div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.*;</div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">import</span> org.junit.*;</div><div class="line"><span class="keyword">import</span> org.openqa.selenium.*;</div><div class="line"><span class="keyword">import</span> org.openqa.selenium.ie.InternetExplorerDriver;</div></pre></td></tr></table></figure></p>
+<p>上面展示了JAVA导入了两个包：junit和selenium。下面来看看Python是如何导入第三方功能的。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line">math.sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>我们可以看到，JAVA和Python的导入都是通过import的方式来实现的。但Python导入除了import外，还有from ..import ..这种方式，下面一起来看一下。</p>
+<h2 id="【方式一：-import】"><a href="#【方式一：-import】" class="headerlink" title="【方式一： import】"></a>【方式一： import】</h2><p>在Python中用关键字import来引入某个模块，比如要引用模块math，就可以在文件的最开头输入import math。当解释器遇到import语句，如果模块在当前的搜索路径就会被直接导入。</p>
+<p>像上面导入math后，在调用时为什么还要加上math.sqrt()呢？因为可能存在这样一种情况，在多个模块中存在相同的函数名，此时如果直接写函数名的话，Python解释器无法判断该执行哪个函数，所以才需要加上math这个模块名。</p>
+<h2 id="【方式二：-from-…-import-…】"><a href="#【方式二：-from-…-import-…】" class="headerlink" title="【方式二： from … import …】"></a>【方式二： from … import …】</h2><p>Python也可以只导入某个模块的某个功能，比如上面的import math它倒入了math模块中的所有功能，那通过from math import sqrt就可以只导入sqrt这个功能了。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt</div><div class="line"></div><div class="line">sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>通过from … import …这种形式导入的话，就可以不用写具体的模块名了，直接通过函数名就可以直接调用了。</p>
+<p>上面imprt math导入了math模块下的所有功能，但调用时需要写上模块名.函数名；而from math import sqrt这种方式只是导入了math模块下的sqrt一个功能，那如何即要导入math模块下的所有功能，又要省去模块名.函数名这种写法呢？</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</div><div class="line"></div><div class="line">sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>2.0</p>
+<p>通过from math import * 就可以实现即要导入math模块下的所有功能，又省去了模块名.函数名这种写法。但是Python并不建议我们这样做。</p>
+<p>另外，有时你的模块名或者模块的属性名已经存在了，或者当前的模块名输入时比较麻烦，再或者你就想使用自己定义的模块名，那可以使用as关键字。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math sa m</div><div class="line"></div><div class="line">m.sqrt(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>又或者：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt sa sq</div><div class="line"></div><div class="line">sq(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<h2 id="【搜索路径和路径搜索】"><a href="#【搜索路径和路径搜索】" class="headerlink" title="【搜索路径和路径搜索】"></a>【搜索路径和路径搜索】</h2><p>模块的导入需要一个叫做“路径搜索”的过程。即在文件系统“预定义区域”中查找某个文件，这些预定义区域只不过是你的Python搜索路径的集合。路径搜索—&gt;指查找某个文件的操作； 搜索路径—&gt;是去查找一组目录。</p>
+<p>默认搜索路径是在编译或是安装时指定的，在Python中是保存在sys.path的变更里。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">sys.path</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>[‘’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/bin’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python35.zip’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/plat-darwin’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/lib-dynload’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages’,<br> ‘/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/IPython/extensions’,<br> ‘/Users/huangxh/.ipython’]</p>
+<p>可以看到sys.path返回的是列表，所以我们可以通过操作列表的方式来添加新的路径。即：sys.path.append(‘路径’)</p>
+<p>示例：<br>当前路径： ‘/Users/huangxh/Desktop/test’<br>文件结构如下：<br>test<br>├── AA<br>│   └── A<br>│       └── classA.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>当前路径下面没有一个叫A的模块名（或文件夹），即在当前路径下面我们只能访问到AA文件夹，所以导入时会报错。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">In [1]: from A import classA</div><div class="line">---------------------------------------------------------------------------</div><div class="line">ImportError                               Traceback (most recent call last)</div><div class="line">&lt;ipython-input-1-d38669fb71a4&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 from A import classA</div><div class="line"></div><div class="line">ImportError: No module named 'A'</div></pre></td></tr></table></figure></p>
+<p>可以通过将当前路径加入到sys.path路径里来解决这个问题<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">2</span>]: <span class="keyword">import</span> sys</div><div class="line">In [<span class="number">3</span>]: sys.path.append(<span class="string">"/Users/huangxh/Desktop/test/AA"</span>)</div><div class="line">In [<span class="number">4</span>]: <span class="keyword">from</span> A <span class="keyword">import</span> classA</div></pre></td></tr></table></figure></p>
+<h2 id="【-all-】"><a href="#【-all-】" class="headerlink" title="【__all__】"></a>【__all__】</h2><p> 假设现在有个Demo.py的文件，在这个文件头部加上__all__ = [“Test”,”test1”]后，再import导入模块时，只会将Test和test1导入，而其它的模块不会被导入。</p>
+<p> 示例：<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> __all__ = [<span class="string">"Test"</span>,<span class="string">"test1"</span>]</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">"---Test类中的test函数---"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"---test1函数---"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"---test2函数---"</span>)</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">In [5]: from Demo import *</div><div class="line"></div><div class="line">In [6]: T = Test()</div><div class="line"></div><div class="line">In [7]: T.test()</div><div class="line"></div><div class="line">---Test类中的test函数---</div><div class="line"></div><div class="line">In [8]: test1()</div><div class="line"></div><div class="line">---test1函数---</div><div class="line"></div><div class="line">In [9]: test2()</div><div class="line">---------------------------------------------------------------------------</div><div class="line">NameError                                 Traceback (most recent call last)</div><div class="line">&lt;ipython-input-9-35ebc1c532fc&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 test2()</div><div class="line"></div><div class="line">NameError: name 'test2' is not defined</div></pre></td></tr></table></figure></p>
+<p>从上面的运行结果中可以看到，当调用test2()函数时报错</p>
+<h2 id="【-init-py】"><a href="#【-init-py】" class="headerlink" title="【__init__.py】"></a>【__init__.py】</h2><p>Python里面有包和模块的概念，包可以理解成一个文件夹，模块可以理解成一个文件<br>__init__.py：是用来控制当import包时，如何处理包下面的模块。</p>
+<p>文件结构如下：<br>test<br>├── AA<br>│   └── A<br>│       ├── __init__.py<br>│       ├── classA.py<br>│       ├── test.py<br>│       └── testb.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>__init__.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">__all__ = [<span class="string">"classA"</span>,<span class="string">"test"</span>]</div></pre></td></tr></table></figure></p>
+<p>classA.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>test.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>testb.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">testb</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">In [3]: from A import *</div><div class="line"></div><div class="line">In [4]: a = classA.A()</div><div class="line"></div><div class="line">In [5]: test = test.test()</div><div class="line"></div><div class="line">In [6]: testb = testb.testb()</div><div class="line">---------------------------------------------------------------------------</div><div class="line">NameError                                 Traceback (most recent call last)</div><div class="line">&lt;ipython-input-6-e5dbda34af1b&gt; in &lt;module&gt;()</div><div class="line">----&gt; 1 testb = testb.testb()</div><div class="line"></div><div class="line">NameError: name 'testb' is not defined</div></pre></td></tr></table></figure>
+<p>在__init__.py文件里面加上：__all__ = [“classA”,”test”]，表明当import A时，可以访问classA和test模块。如果此时在A文件夹下又多了一个testb.py的文件，当用户去直接调用testb的时会报错.</p>
+<h2 id="【-pycache-文件夹】"><a href="#【-pycache-文件夹】" class="headerlink" title="【__pycache__文件夹】"></a>【__pycache__文件夹】</h2><p>文件结构：<br>test<br>├── AA<br>│   └── A<br>│       ├── __init__.py<br>│       ├── __pycache__<br>│       │   ├── __init__.cpython-35.pyc<br>│       │   ├── classA.cpython-35.pyc<br>│       │   └── test.cpython-35.pyc<br>│       ├── classA.py<br>│       ├── test.py<br>│       └── testb.py<br>└── BB<br>    └── B<br>        └── classB.py</p>
+<p>当类被实例化后，会在类所在目录下面新建一个__pycache__文件夹（如上所示），用来存放类编译后的信息。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
 
   
 
@@ -271,7 +580,10 @@
             
             
               
-                进程在Python中的应用
+                
+                <a class="post-title-link" href="/2015/03/24/进程在Python中的应用/" itemprop="url">
+                  进程在Python中的应用
+                </a>
               
             
           </h1>
@@ -322,7 +634,9 @@
       
 
       
-        <h2 id="进程概念梳理"><a href="#进程概念梳理" class="headerlink" title="进程概念梳理"></a>进程概念梳理</h2><p>进程是程序的一次执行。当程序运行时，默认就会产生一个进程且Python解释器会给该进程开辟一个内存空间。</p>
+        
+          
+            <h2 id="进程概念梳理"><a href="#进程概念梳理" class="headerlink" title="进程概念梳理"></a>进程概念梳理</h2><p>进程是程序的一次执行。当程序运行时，默认就会产生一个进程且Python解释器会给该进程开辟一个内存空间。</p>
 <p>进程也可以实现多任务，当有多个进程产生时，之前默认的那个进程我们可以称为主进程，而之后通过fork或Process创建的进程称为子进程。而创建出来的子进程，Python解释器又会给它们开辟新的内存空间，所以各个子进程之间的数据不进行共享。</p>
 <p>一个主进程里面可以拥有多个子进程。</p>
 <h2 id="进程的创建–fork"><a href="#进程的创建–fork" class="headerlink" title="进程的创建–fork"></a>进程的创建–fork</h2><p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line">rpid = os.fork() <span class="comment">#调用fork()后，会返回一个子进程id</span></div><div class="line">print(<span class="string">"rpid = %d"</span> %rpid)</div><div class="line"></div><div class="line"><span class="keyword">if</span> rpid&lt;<span class="number">0</span>:</div><div class="line">    print(<span class="string">"fork调用失败。"</span>)</div><div class="line"><span class="keyword">elif</span> rpid == <span class="number">0</span>:</div><div class="line">    print(<span class="string">"我是子进程（%s），我的父进程是（%s）"</span>%(os.getpid(),os.getppid()))</div><div class="line"><span class="keyword">else</span>:</div><div class="line">    print(<span class="string">"我是父进程（%s），我的子进程是（%s）"</span>%(os.getpid(),rpid))</div><div class="line"></div><div class="line">print(<span class="string">"父子进程都可以执行这里的代码"</span>)</div></pre></td></tr></table></figure></p>
@@ -385,72 +699,46 @@
 <p>如果进程池通信使用multiprocessing.Queue的话，会报：RuntimeError: Queue objects should only be shared between processes through inheritance.</p>
 <p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"></div><div class="line"><span class="comment">#修改import中的Queue为Manager</span></div><div class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Manager,Pool</div><div class="line"><span class="keyword">import</span> os,time,random</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">reader</span><span class="params">(q)</span>:</span></div><div class="line">    print(<span class="string">"reader启动(%s),父进程为(%s)"</span>%(os.getpid(),os.getppid()))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(q.qsize()):</div><div class="line">        print(<span class="string">"reader从Queue获取到消息：%s"</span>%q.get(<span class="keyword">True</span>))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">writer</span><span class="params">(q)</span>:</span></div><div class="line">    print(<span class="string">"writer启动(%s),父进程为(%s)"</span>%(os.getpid(),os.getppid()))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>,<span class="string">"D"</span>]:</div><div class="line">        q.put(i)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</div><div class="line">    print(<span class="string">"(%s) start"</span>%os.getpid())</div><div class="line">    q=Manager().Queue() <span class="comment">#使用Manager中的Queue来初始化</span></div><div class="line">    po=Pool()</div><div class="line">    <span class="comment">#使用阻塞模式创建进程，这样就不需要在reader中使用死循环了，可以让writer完全执行完成后，再用reader去读取</span></div><div class="line">    po.apply(writer,(q,))</div><div class="line">    po.apply(reader,(q,))</div><div class="line">    po.close()</div><div class="line">    po.join()</div><div class="line">    print(<span class="string">"(%s) End"</span>%os.getpid())</div></pre></td></tr></table></figure></p>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-        </div>
+
       
 
       
-        
-      
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/03/27/模块导入和搜索路径/" rel="next" title="模块导入和搜索路径">
-                <i class="fa fa-chevron-left"></i> 模块导入和搜索路径
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -458,10 +746,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -481,17 +765,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -544,22 +819,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程概念梳理"><span class="nav-number">1.</span> <span class="nav-text">进程概念梳理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的创建–fork"><span class="nav-number">2.</span> <span class="nav-text">进程的创建–fork</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果："><span class="nav-number">2.1.</span> <span class="nav-text">运行结果：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码说明："><span class="nav-number">2.2.</span> <span class="nav-text">代码说明：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的创建–multiprocessing、Process"><span class="nav-number">3.</span> <span class="nav-text">进程的创建–multiprocessing、Process</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Process语法结构如下："><span class="nav-number">3.1.</span> <span class="nav-text">Process语法结构如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Process类常用方法："><span class="nav-number">3.2.</span> <span class="nav-text">Process类常用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行结果：-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">运行结果：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的创建–Process子类"><span class="nav-number">3.3.</span> <span class="nav-text">进程的创建–Process子类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果：-2"><span class="nav-number">3.4.</span> <span class="nav-text">运行结果：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程池–Pool"><span class="nav-number">4.</span> <span class="nav-text">进程池–Pool</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果：-3"><span class="nav-number">4.1.</span> <span class="nav-text">运行结果：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiprocessing-Pool常用函数解析："><span class="nav-number">4.2.</span> <span class="nav-text">multiprocessing.Pool常用函数解析：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程间通信–multiprocessing-Queue"><span class="nav-number">5.</span> <span class="nav-text">进程间通信–multiprocessing.Queue</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">5.1.</span> <span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程池间通信–multiprocessing-Manager-Queue"><span class="nav-number">6.</span> <span class="nav-text">进程池间通信–multiprocessing.Manager().Queue</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -674,10 +933,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 
